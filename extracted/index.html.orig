@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOOL — Start at the root · Scalp-first botanical hair care</title>
+<meta name="description" content="Scalp-first hair rituals built on two botanicals — rosemary for the scalp, bhringraj for strength. A routine, not a shelf of oils.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --field:#10201A;
+    --panel:#172E23;
+    --panel-2:#1E3B2C;
+    --line:rgba(241,236,223,.14);
+    --line-soft:rgba(241,236,223,.08);
+    --bone:#F1ECDF;
+    --bone-dim:rgba(241,236,223,.62);
+    --bone-faint:rgba(241,236,223,.40);
+    --sage:#9DB79A;
+    --brass:#C6A566;
+    --brass-deep:#a8894f;
+    --ink:#12211A;
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"Inter",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",monospace;
+    --nav-h:66px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--field);color:var(--bone);font-family:var(--sans);
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body.locked{overflow:hidden}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+  .serif{font-family:var(--serif)}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  img,svg{display:block}
+  .rule{height:1px;background:var(--line);margin:0}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:500;letter-spacing:.02em;
+    padding:13px 22px;border-radius:3px;transition:background .25s,color .25s,border-color .25s,transform .1s}
+  .btn:active{transform:translateY(1px)}
+  .btn-brass{background:var(--brass);color:var(--ink)}
+  .btn-brass:hover{background:#d4b578}
+  .btn-ghost{border:1px solid var(--line);color:var(--bone);}
+  .btn-ghost:hover{border-color:var(--brass);color:var(--brass)}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+  /* ---------------- NAV ---------------- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;height:var(--nav-h);
+    display:flex;align-items:center;transition:background .35s,border-color .35s,backdrop-filter .35s;
+    border-bottom:1px solid transparent}
+  nav.scrolled{background:rgba(16,32,26,.82);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%}
+  .nav-mark{font-family:var(--serif);font-size:23px;letter-spacing:.06em;display:flex;align-items:baseline;gap:.28em}
+  .nav-mark .deva{font-size:.5em;color:var(--brass);font-weight:300;transform:translateY(-.15em)}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{font-size:13px;color:var(--bone-dim);letter-spacing:.02em;transition:color .2s;position:relative}
+  .nav-links a:hover{color:var(--bone)}
+  .nav-right{display:flex;align-items:center;gap:20px}
+  .bag-btn{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--bone);padding:8px 14px;border:1px solid var(--line);border-radius:3px;transition:border-color .2s}
+  .bag-btn:hover{border-color:var(--brass)}
+  .bag-count{font-family:var(--mono);font-size:11px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;
+    background:var(--brass);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:500;
+    transition:transform .25s}
+  .bag-count.bump{transform:scale(1.35)}
+  .menu-toggle{display:none}
+
+  /* ---------------- HERO ---------------- */
+  header.hero{position:relative;padding:calc(var(--nav-h) + 78px) 0 84px;overflow:hidden}
+  .hero-inner{position:relative;z-index:2;max-width:720px}
+  .eyebrow{margin-bottom:30px}
+  .wordmark{font-family:var(--serif);font-weight:400;letter-spacing:.02em;
+    font-size:clamp(92px,21vw,236px);line-height:.84;color:var(--bone);display:flex;align-items:baseline;gap:.1em}
+  .wordmark .deva{font-size:.2em;color:var(--brass);letter-spacing:0;transform:translateY(-.75em);font-weight:300}
+  .tag{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(24px,3.8vw,38px);color:var(--sage);margin-top:16px}
+  .lede{max-width:540px;margin-top:24px;font-size:17px;color:var(--bone-dim)}
+  .hero-cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .sprig{position:absolute;top:calc(var(--nav-h) - 20px);right:-40px;width:min(48vw,560px);opacity:.55;z-index:1;pointer-events:none}
+  .hero-meta{display:flex;gap:34px;margin-top:52px;flex-wrap:wrap}
+  .hero-meta .m .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-faint);margin-bottom:6px}
+  .hero-meta .m .v{font-size:14px;color:var(--bone-dim)}
+  .hero-meta .m .v b{color:var(--bone);font-weight:600}
+
+  /* ---------------- SECTIONS ---------------- */
+  section{padding:80px 0}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:40px}
+  .sec-head .num{font-family:var(--mono);font-size:12px;color:var(--brass)}
+  .sec-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(27px,4vw,42px);letter-spacing:-.01em}
+  .sec-head .aside{margin-left:auto;font-size:13px;color:var(--bone-faint);max-width:280px;text-align:right}
+
+  .thesis{font-family:var(--serif);font-weight:300;font-size:clamp(27px,4.6vw,48px);line-height:1.22;letter-spacing:-.015em;max-width:940px}
+  .thesis em{font-style:italic;color:var(--brass)}
+
+  /* ---------------- INGREDIENTS ---------------- */
+  .botanicals{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .bot{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:34px 30px;position:relative;overflow:hidden}
+  .bot .leaf{position:absolute;top:-24px;right:-24px;width:150px;opacity:.16;pointer-events:none}
+  .bot .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
+  .bot h3{font-family:var(--serif);font-weight:400;font-size:30px;margin-bottom:6px}
+  .bot .latin{font-family:var(--serif);font-style:italic;font-weight:300;font-size:15px;color:var(--bone-faint);margin-bottom:18px}
+  .bot p{font-size:15px;color:var(--bone-dim);position:relative;z-index:2}
+  .bot .used{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--bone-faint)}
+  .bot .used b{color:var(--brass);font-weight:500}
+
+  /* ---------------- PRODUCTS ---------------- */
+  .prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .prod{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:28px 26px;display:flex;flex-direction:column;transition:background .3s,border-color .3s}
+  .prod:hover{background:var(--panel-2);border-color:rgba(198,165,106,.4)}
+  .prod .role-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 9px;border:1px solid var(--line);color:var(--sage);border-radius:2px;margin-bottom:20px;align-self:flex-start}
+  .prod.hero-prod .role-tag{background:var(--brass);color:var(--ink);border-color:var(--brass);font-weight:500}
+  .prod h3{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.1;margin-bottom:5px}
+  .prod .fn{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--sage);margin-bottom:16px}
+  .prod .claim{font-size:14.5px;color:var(--bone-dim);margin-bottom:22px;flex:1}
+  .prod .spec{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .prod .spec span{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--bone-faint);
+    border:1px solid var(--line-soft);border-radius:2px;padding:5px 9px}
+  .prod .spec span b{color:var(--bone-dim);font-weight:500}
+  .prod .buy{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:18px;border-top:1px solid var(--line)}
+  .prod .price{font-family:var(--serif);font-size:24px;color:var(--brass)}
+  .prod .price small{font-family:var(--sans);font-size:11px;color:var(--bone-faint);letter-spacing:.02em;margin-right:3px}
+  .add-btn{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;letter-spacing:.03em;
+    padding:11px 18px;border:1px solid var(--brass);color:var(--brass);border-radius:3px;transition:background .25s,color .25s}
+  .add-btn:hover{background:var(--brass);color:var(--ink)}
+  .add-btn.added{background:var(--sage);border-color:var(--sage);color:var(--ink)}
+
+  /* ---------------- RITUAL ---------------- */
+  .ritual{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+  .step{background:var(--field);padding:30px 24px}
+  .step .n{font-family:var(--serif);font-size:44px;font-weight:300;color:var(--brass);line-height:1;margin-bottom:16px}
+  .step .when{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:10px}
+  .step h4{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.2;margin-bottom:10px}
+  .step p{font-size:13.5px;color:var(--bone-dim)}
+
+  /* ---------------- CLAIMS ---------------- */
+  .claims{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+  .claims .col{background:var(--panel);padding:32px 28px}
+  .claims .col.dont{background:#1a2620}
+  .claims .col h3{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:9px}
+  .claims .say h3{color:var(--brass)}
+  .claims .dont h3{color:#c69b96}
+  .claims li{list-style:none;padding:11px 0;font-size:14.5px;display:flex;gap:12px;align-items:flex-start;border-bottom:1px dashed var(--line)}
+  .claims li:last-child{border-bottom:0}
+  .claims .mk{flex:0 0 auto;font-family:var(--mono);font-size:13px;line-height:1.5}
+  .say .mk{color:var(--brass)}
+  .dont .mk{color:#c07d78}
+  .claims .dont li{color:var(--bone-dim);text-decoration:line-through;text-decoration-color:rgba(192,125,120,.45)}
+  .claim-note{margin-top:20px;font-size:13px;color:var(--bone-faint);max-width:820px}
+  .claim-note em{color:var(--sage);font-style:normal}
+
+  /* ---------------- BUNDLES ---------------- */
+  .bundles{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .bundle{border:1px solid var(--line);border-radius:5px;padding:32px 28px;background:var(--panel);display:flex;flex-direction:column}
+  .bundle.feature{border-color:var(--brass);background:linear-gradient(160deg,var(--panel-2),var(--panel))}
+  .bundle .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin-bottom:16px}
+  .bundle h3{font-family:var(--serif);font-weight:400;font-size:28px;margin-bottom:12px}
+  .bundle .contains{font-size:14px;color:var(--bone-dim);margin-bottom:24px;flex:1}
+  .bundle .foot{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+  .bundle .pr{font-family:var(--serif);font-size:32px;color:var(--brass)}
+  .bundle .pr small{display:block;font-family:var(--sans);font-size:11.5px;color:var(--bone-faint);letter-spacing:.02em;margin-top:4px}
+
+  /* ---------------- NEWSLETTER ---------------- */
+  .signup{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:52px 44px;text-align:center;position:relative;overflow:hidden}
+  .signup h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.6vw,38px);margin-bottom:12px}
+  .signup p{font-size:15px;color:var(--bone-dim);max-width:440px;margin:0 auto 28px}
+  .signup form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+  .signup input{flex:1;min-width:220px;background:var(--field);border:1px solid var(--line);border-radius:3px;
+    padding:13px 16px;color:var(--bone);font-family:var(--sans);font-size:14px}
+  .signup input::placeholder{color:var(--bone-faint)}
+  .signup input:focus{outline:none;border-color:var(--brass)}
+  .signup .ok{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--sage);letter-spacing:.04em;opacity:0;transition:opacity .3s}
+  .signup .ok.show{opacity:1}
+
+  /* ---------------- FOOTER ---------------- */
+  footer{padding:62px 0 60px;border-top:1px solid var(--line)}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;margin-bottom:44px}
+  .fmark{font-family:var(--serif);font-size:30px;letter-spacing:.05em;margin-bottom:14px;display:flex;align-items:baseline;gap:.3em}
+  .fmark .deva{color:var(--brass);font-size:.5em;font-weight:300;transform:translateY(-.15em)}
+  .foot-tag{font-family:var(--serif);font-style:italic;font-weight:300;color:var(--sage);font-size:16px}
+  .foot-col h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-faint);margin-bottom:16px}
+  .foot-col a{display:block;font-size:13.5px;color:var(--bone-dim);padding:5px 0;transition:color .2s}
+  .foot-col a:hover{color:var(--bone)}
+  .disc{font-size:12px;color:var(--bone-faint);max-width:820px;padding-top:26px;border-top:1px solid var(--line-soft)}
+  .disc b{color:var(--sage);font-weight:500}
+
+  /* ---------------- CART DRAWER ---------------- */
+  .overlay{position:fixed;inset:0;background:rgba(10,20,16,.6);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;z-index:90}
+  .overlay.open{opacity:1;visibility:visible}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:var(--field);border-left:1px solid var(--line);
+    z-index:100;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+  .drawer.open{transform:none}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:24px 26px;border-bottom:1px solid var(--line)}
+  .drawer-head h3{font-family:var(--serif);font-weight:400;font-size:22px}
+  .drawer-head .close{font-size:22px;color:var(--bone-dim);width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:3px;transition:color .2s,background .2s}
+  .drawer-head .close:hover{color:var(--bone);background:var(--panel)}
+  .drawer-body{flex:1;overflow-y:auto;padding:8px 26px}
+  .cart-empty{padding:60px 0;text-align:center;color:var(--bone-faint)}
+  .cart-empty .em-mark{font-family:var(--serif);font-size:40px;color:var(--line);margin-bottom:14px}
+  .cart-empty p{font-size:14px;margin-bottom:22px}
+  .ci{display:flex;gap:14px;padding:20px 0;border-bottom:1px solid var(--line-soft)}
+  .ci .swatch{flex:0 0 52px;height:64px;border-radius:3px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center}
+  .ci .swatch svg{width:26px;opacity:.7}
+  .ci .info{flex:1;min-width:0}
+  .ci .info h4{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.2;margin-bottom:3px}
+  .ci .info .sz{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--bone-faint);text-transform:uppercase}
+  .ci .qty{display:flex;align-items:center;gap:0;margin-top:12px;border:1px solid var(--line);border-radius:3px;width:fit-content}
+  .ci .qty button{width:28px;height:28px;color:var(--bone-dim);font-size:15px;transition:color .2s}
+  .ci .qty button:hover{color:var(--brass)}
+  .ci .qty span{width:32px;text-align:center;font-family:var(--mono);font-size:12px}
+  .ci .right{text-align:right;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end}
+  .ci .right .p{font-family:var(--mono);font-size:13px;color:var(--bone)}
+  .ci .right .rm{font-size:11px;color:var(--bone-faint);letter-spacing:.03em;transition:color .2s}
+  .ci .right .rm:hover{color:#c07d78}
+  .drawer-foot{padding:22px 26px;border-top:1px solid var(--line)}
+  .sub-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .sub-row .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
+  .sub-row .val{font-family:var(--serif);font-size:26px;color:var(--brass)}
+  .ship-note{font-size:11.5px;color:var(--bone-faint);margin-bottom:18px}
+  .checkout{width:100%;justify-content:center;background:var(--brass);color:var(--ink);padding:15px;border-radius:3px;font-size:14px;font-weight:600;letter-spacing:.02em;transition:background .25s}
+  .checkout:hover{background:#d4b578}
+
+  /* toast */
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);z-index:120;
+    background:var(--panel-2);border:1px solid var(--brass);border-radius:4px;padding:13px 22px;
+    font-size:13px;color:var(--bone);opacity:0;visibility:hidden;transition:opacity .3s,transform .3s,visibility .3s;
+    display:flex;align-items:center;gap:10px;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+  .toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+  .toast .dot{width:7px;height:7px;border-radius:50%;background:var(--sage)}
+
+  /* ---------------- RESPONSIVE ---------------- */
+  @media(max-width:860px){
+    .nav-links{display:none}
+    .menu-toggle{display:flex;flex-direction:column;gap:5px;padding:8px;width:38px}
+    .menu-toggle span{height:1.5px;width:20px;background:var(--bone);transition:transform .3s,opacity .3s}
+    .menu-toggle.on span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+    .menu-toggle.on span:nth-child(2){opacity:0}
+    .menu-toggle.on span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    .mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(16,32,26,.97);backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);z-index:55;transform:translateY(-12px);opacity:0;visibility:hidden;
+      transition:opacity .3s,transform .3s,visibility .3s;padding:14px 28px 26px}
+    .mobile-menu.open{opacity:1;visibility:visible;transform:none}
+    .mobile-menu a{display:block;font-size:16px;color:var(--bone-dim);padding:13px 0;border-bottom:1px solid var(--line-soft);font-family:var(--serif);font-weight:300}
+    .botanicals,.prod-grid,.claims,.bundles{grid-template-columns:1fr}
+    .ritual{grid-template-columns:1fr 1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .sec-head .aside{display:none}
+    .sprig{opacity:.22}
+    .signup{padding:40px 24px}
+  }
+  @media(max-width:520px){
+    .ritual{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    section{padding:60px 0}
+  }
+  :focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="nav-mark">MOOL<span class="deva">मूल</span></a>
+    <div class="nav-links">
+      <a href="#routine">The Routine</a>
+      <a href="#ingredients">Ingredients</a>
+      <a href="#ritual">The Ritual</a>
+      <a href="#honesty">Our Claims</a>
+    </div>
+    <div class="nav-right">
+      <button class="bag-btn" onclick="openCart()" aria-label="Open bag">
+        Bag <span class="bag-count" id="bagCount">0</span>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#routine">The Routine</a>
+  <a href="#ingredients">Ingredients</a>
+  <a href="#ritual">The Ritual</a>
+  <a href="#honesty">Our Claims</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="top">
+  <svg class="sprig" viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M150 400 C150 300 150 200 150 40" stroke="#9DB79A" stroke-width="2" stroke-opacity="0.5"/>
+    <g stroke="#9DB79A" stroke-width="1.5" stroke-opacity="0.55" stroke-linecap="round">
+      <path d="M150 70 C120 60 96 66 74 44 M150 70 C180 60 204 66 226 44"/>
+      <path d="M150 110 C118 100 92 106 68 82 M150 110 C182 100 208 106 232 82"/>
+      <path d="M150 152 C120 142 96 148 74 126 M150 152 C180 142 204 148 226 126"/>
+      <path d="M150 196 C116 186 90 192 66 168 M150 196 C184 186 210 192 234 168"/>
+      <path d="M150 240 C120 230 96 236 76 214 M150 240 C180 230 204 236 224 214"/>
+      <path d="M150 286 C122 276 98 282 80 262 M150 286 C178 276 202 282 220 262"/>
+      <path d="M150 40 C138 26 140 14 150 2 C160 14 162 26 150 40Z" fill="#9DB79A" fill-opacity="0.18"/>
+    </g>
+  </svg>
+  <div class="wrap hero-inner">
+    <div class="eyebrow mono">Scalp-first botanical hair care</div>
+    <div class="wordmark">MOOL<span class="deva">मूल</span></div>
+    <div class="tag">Start at the root.</div>
+    <p class="lede">Scalp-first hair rituals built on two botanicals — rosemary for the scalp, bhringraj for strength. A routine, not a shelf of oils.</p>
+    <div class="hero-cta">
+      <a href="#routine" class="btn btn-brass">Shop the routine →</a>
+      <a href="#ritual" class="btn btn-ghost">How the ritual works</a>
+    </div>
+    <div class="hero-meta">
+      <div class="m"><div class="k">Built on</div><div class="v"><b>Two botanicals</b>, not twenty</div></div>
+      <div class="m"><div class="k">Starts at</div><div class="v">The <b>scalp</b>, where hair is made</div></div>
+      <div class="m"><div class="k">The promise</div><div class="v"><b>Honest claims</b>, exact directions</div></div>
+    </div>
+  </div>
+</header>
+<div class="rule"></div>
+
+<!-- ===== THESIS ===== -->
+<section>
+  <div class="wrap">
+    <p class="thesis rv">Most hair brands sell you more bottles. <em>We sell you one routine —</em> and we start at the scalp, because that's where hair is actually made or broken.</p>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ===== INGREDIENTS ===== -->
+<section id="ingredients">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">01</span>
+      <h2 class="serif">Two botanicals, two jobs</h2>
+      <p class="aside">We name the actives and give the dose. Nothing hides behind a "proprietary blend."</p>
+    </div>
+    <div class="botanicals">
+      <div class="bot rv">
+        <svg class="leaf" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M50 120 L50 20" stroke="#9DB79A" stroke-width="2"/>
+          <g stroke="#9DB79A" stroke-width="1.5" stroke-linecap="round">
+            <path d="M50 40 C36 34 26 38 16 26 M50 40 C64 34 74 38 84 26"/>
+            <path d="M50 62 C34 56 24 60 14 48 M50 62 C66 56 76 60 86 48"/>
+            <path d="M50 84 C36 78 26 82 18 70 M50 84 C64 78 74 82 82 70"/>
+            <path d="M50 104 C38 98 30 102 22 92 M50 104 C62 98 70 102 78 92"/>
+          </g>
+        </svg>
+        <div class="role">For the scalp</div>
+        <h3>Rosemary</h3>
+        <div class="latin">Rosmarinus officinalis</div>
+        <p>The scalp is the soil. Rosemary refreshes and clarifies it — clearing the day's buildup so roots have a clean, awake place to grow from. It's the reset the rest of the routine is built on.</p>
+        <div class="used">In · <b>Scalp Tonic</b> + <b>Strength Shampoo</b></div>
+      </div>
+      <div class="bot rv">
+        <svg class="leaf" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M50 120 C50 90 50 60 50 24" stroke="#9DB79A" stroke-width="2"/>
+          <g stroke="#9DB79A" stroke-width="1.5" stroke-linecap="round">
+            <path d="M50 34 C40 20 44 12 50 6 C56 12 60 20 50 34"/>
+            <path d="M50 58 C38 50 30 54 20 42 M50 58 C62 50 70 54 80 42"/>
+            <path d="M50 82 C40 74 32 78 24 68 M50 82 C60 74 68 78 76 68"/>
+          </g>
+        </svg>
+        <div class="role">For strength</div>
+        <h3>Bhringraj</h3>
+        <div class="latin">Eclipta alba</div>
+        <p>The classic strength botanical. Bhringraj conditions dry roots and lengths and helps hair feel less prone to breakage — so what grows in has a better chance of staying put.</p>
+        <div class="used">In · <b>Root Strength Oil</b> + <b>Neelibhringadi Oil</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ===== ROUTINE / SHOP ===== -->
+<section id="routine">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">02</span>
+      <h2 class="serif">The routine — four products</h2>
+      <p class="aside">One tonic, two oils, one cleanse. Scalp to lengths.</p>
+    </div>
+    <div class="prod-grid" id="prodGrid">
+      <!-- cards injected by JS -->
+    </div>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ===== RITUAL ===== -->
+<section id="ritual">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">03</span>
+      <h2 class="serif">A week with MOOL</h2>
+      <p class="aside">A rhythm you can actually keep — not a shelf you feel guilty about.</p>
+    </div>
+    <div class="ritual rv">
+      <div class="step">
+        <div class="n">01</div>
+        <div class="when">Every night</div>
+        <h4>Scalp Tonic</h4>
+        <p>A few drops of the leave-in tonic, worked into the scalp. The daily reset — lightweight, no oily weight.</p>
+      </div>
+      <div class="step">
+        <div class="n">02</div>
+        <div class="when">2–3× a week</div>
+        <h4>Pre-wash oil</h4>
+        <p>Massage Bhringraj Root Strength Oil through before you wash. Leave 30 minutes, then cleanse.</p>
+      </div>
+      <div class="step">
+        <div class="n">03</div>
+        <div class="when">1–2× a week</div>
+        <h4>Deep condition</h4>
+        <p>Swap in the Neelibhringadi Intensive when hair feels dry, rough or overworked.</p>
+      </div>
+      <div class="step">
+        <div class="n">04</div>
+        <div class="when">As needed</div>
+        <h4>Cleanse</h4>
+        <p>The Rosemary Strength Shampoo clears buildup without stripping — then start again at the root.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ===== HONESTY ===== -->
+<section id="honesty">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">04</span>
+      <h2 class="serif">What we say — and what we never say</h2>
+    </div>
+    <div class="claims rv">
+      <div class="col say">
+        <h3><span>✓</span> We say</h3>
+        <ul>
+          <li><span class="mk">✓</span> Stronger, fuller-looking hair</li>
+          <li><span class="mk">✓</span> Helps reduce breakage</li>
+          <li><span class="mk">✓</span> Refreshes &amp; clarifies the scalp</li>
+          <li><span class="mk">✓</span> Conditions dry hair; adds softness &amp; shine</li>
+          <li><span class="mk">✓</span> Clears buildup without stripping</li>
+        </ul>
+      </div>
+      <div class="col dont">
+        <h3><span>✕</span> We never say</h3>
+        <ul>
+          <li><span class="mk">✕</span> Regrows hair / cures baldness</li>
+          <li><span class="mk">✕</span> Stops hair fall / treats hair loss</li>
+          <li><span class="mk">✕</span> Reverses greying</li>
+          <li><span class="mk">✕</span> Treats dandruff / scalp disease</li>
+          <li><span class="mk">✕</span> Clinically proven — without a study on file</li>
+        </ul>
+      </div>
+    </div>
+    <p class="claim-note">The right-hand column isn't just caution — <em>it's the brand.</em> Honesty about a scalp routine, instead of false growth promises, is how we earn trust and how we stay on the right side of the Drugs &amp; Magic Remedies Act. A claim only moves to the left when there's a formula and evidence behind it.</p>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ===== BUNDLES ===== -->
+<section id="bundles">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">05</span>
+      <h2 class="serif">The ritual, bundled</h2>
+      <p class="aside">Start with the reset, or subscribe to the whole routine on refill.</p>
+    </div>
+    <div class="bundles">
+      <div class="bundle rv">
+        <div class="k">Starter</div>
+        <h3>Root Reset Duo</h3>
+        <p class="contains">Rosemary Scalp Tonic + Bhringraj Root Strength Oil. The entry routine — the nightly scalp reset and the pre-wash strength ritual, together.</p>
+        <div class="foot">
+          <div class="pr">₹999<small>Saves ~15% vs. singles</small></div>
+          <button class="add-btn" data-bundle="duo">Add to bag</button>
+        </div>
+      </div>
+      <div class="bundle feature rv">
+        <div class="k">Best value · Refill &amp; save</div>
+        <h3>The Complete Root Ritual</h3>
+        <p class="contains">All four: Scalp Tonic, Bhringraj Oil, Neelibhringadi Oil &amp; Rosemary Shampoo. The full scalp-to-lengths routine — delivered on refill, cancel anytime.</p>
+        <div class="foot">
+          <div class="pr">₹1,299<small>Best price · subscription</small></div>
+          <button class="add-btn" data-bundle="ritual">Add to bag</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ===== SIGNUP ===== -->
+<section>
+  <div class="wrap">
+    <div class="signup rv">
+      <h2 class="serif">Start at the root</h2>
+      <p>Get the one-page routine guide and early access to the launch. No miracle promises — just the ritual, done right.</p>
+      <form id="signupForm">
+        <input type="email" placeholder="you@email.com" required aria-label="Email address">
+        <button type="submit" class="btn btn-brass">Send me the guide</button>
+      </form>
+      <div class="ok mono" id="signupOk">✓ You're on the list — check your inbox.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="fmark serif">MOOL<span class="deva">मूल</span></div>
+        <p class="foot-tag">Start at the root.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Shop</h5>
+        <a href="#routine">Scalp Tonic</a>
+        <a href="#routine">Root Strength Oil</a>
+        <a href="#routine">Neelibhringadi Oil</a>
+        <a href="#bundles">Bundles</a>
+      </div>
+      <div class="foot-col">
+        <h5>Learn</h5>
+        <a href="#ingredients">Ingredients</a>
+        <a href="#ritual">The ritual</a>
+        <a href="#honesty">Our claims</a>
+        <a href="#top">Scalp-first, why</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="#">About MOOL</a>
+        <a href="#">Contact</a>
+        <a href="#">Shipping &amp; returns</a>
+        <a href="#">Ingredient index</a>
+      </div>
+    </div>
+    <p class="disc"><b>A note on claims.</b> MOOL products are cosmetics that support a scalp-first hair-care routine. They are not intended to diagnose, treat, cure or prevent hair loss, greying, dandruff or any medical condition. Ingredient names and directions on this page reflect our formulation intent; final on-pack copy is tied to the verified formula and evidence file. Prices shown are launch targets. © 2026 MOOL.</p>
+  </div>
+</footer>
+
+<!-- ===== CART DRAWER ===== -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping bag">
+  <div class="drawer-head">
+    <h3 class="serif">Your bag</h3>
+    <button class="close" onclick="closeCart()" aria-label="Close bag">×</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot" style="display:none">
+    <div class="sub-row">
+      <span class="lbl">Subtotal</span>
+      <span class="val" id="subtotal">₹0</span>
+    </div>
+    <p class="ship-note">Shipping &amp; taxes calculated at checkout · Free shipping over ₹999.</p>
+    <button class="checkout" onclick="fakeCheckout()">Checkout</button>
+  </div>
+</aside>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"><span class="dot"></span><span id="toastMsg">Added to bag</span></div>
+
+<script>
+  /* ---------- catalogue ---------- */
+  const PRODUCTS = [
+    { id:"tonic", hero:true, tag:"Hero · Daily scalp reset", name:"Rosemary Scalp Tonic",
+      fn:"Leave-in · every night",
+      claim:"A lightweight leave-in that refreshes the scalp and supports stronger, fuller-looking roots — without the weight of an oil.",
+      active:"Rosemary", size:"100 mL", price:799 },
+    { id:"bhringraj", tag:"Co-anchor · Pre-wash strength", name:"Bhringraj Root Strength Oil",
+      fn:"Pre-wash · 2–3× a week",
+      claim:"A concentrated pre-wash oil that conditions dry roots and lengths and helps reduce the feel of breakage.",
+      active:"Bhringraj", size:"100 mL", price:499 },
+    { id:"neeli", tag:"Weekly intensive", name:"Neelibhringadi Intensive Oil",
+      fn:"Deep-condition · 1–2× a week",
+      claim:"A richer weekly oil for hair that feels dry, rough or overworked — for softness, shine and stronger-looking lengths.",
+      active:"Neeli + Bhringraj", size:"100 mL", price:599 },
+    { id:"shampoo", tag:"Clarifying cleanse", name:"Rosemary Strength Shampoo",
+      fn:"Cleanse · as needed",
+      claim:"A gentle cleanser that clears scalp buildup and leaves hair fresh — not stripped. Pairs with the tonic and oils.",
+      active:"Rosemary", size:"200 mL", price:499 }
+  ];
+  const BUNDLES = {
+    duo:    { id:"duo",    name:"Root Reset Duo",          size:"2-piece set", price:999 },
+    ritual: { id:"ritual", name:"Complete Root Ritual",    size:"4-piece · refill", price:1299 }
+  };
+  const CATALOG = {};
+  PRODUCTS.forEach(p=>CATALOG[p.id]=p);
+  Object.values(BUNDLES).forEach(b=>CATALOG[b.id]=b);
+
+  const fmt = n => "₹" + n.toLocaleString("en-IN");
+
+  /* ---------- render product cards ---------- */
+  const grid = document.getElementById("prodGrid");
+  grid.innerHTML = PRODUCTS.map(p=>`
+    <div class="prod rv ${p.hero?'hero-prod':''}">
+      <span class="role-tag">${p.tag}</span>
+      <h3>${p.name}</h3>
+      <div class="fn">${p.fn}</div>
+      <p class="claim">${p.claim}</p>
+      <div class="spec">
+        <span>Active · <b>${p.active}</b></span>
+        <span>${p.size}</span>
+      </div>
+      <div class="buy">
+        <div class="price"><small>MRP</small>${fmt(p.price)}</div>
+        <button class="add-btn" data-add="${p.id}">Add to bag</button>
+      </div>
+    </div>`).join("");
+
+  /* ---------- cart state ---------- */
+  const cart = {};   // id -> qty
+
+  function bagQty(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+
+  function leafSVG(){
+    return `<svg viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 46 L20 10" stroke="#9DB79A" stroke-width="1.6"/>
+      <path d="M20 18 C13 14 8 16 4 10 M20 18 C27 14 32 16 36 10
+               M20 28 C12 24 7 26 3 20 M20 28 C28 24 33 26 37 20" stroke="#9DB79A" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  function renderCart(){
+    const body = document.getElementById("drawerBody");
+    const foot = document.getElementById("drawerFoot");
+    const ids = Object.keys(cart);
+    if(ids.length===0){
+      body.innerHTML = `<div class="cart-empty">
+        <div class="em-mark serif">मूल</div>
+        <p>Your bag is empty.</p>
+        <a href="#routine" class="btn btn-ghost" onclick="closeCart()">Shop the routine</a>
+      </div>`;
+      foot.style.display="none";
+    } else {
+      body.innerHTML = ids.map(id=>{
+        const p = CATALOG[id]; const q = cart[id];
+        return `<div class="ci">
+          <div class="swatch">${leafSVG()}</div>
+          <div class="info">
+            <h4>${p.name}</h4>
+            <div class="sz">${p.size}</div>
+            <div class="qty">
+              <button onclick="changeQty('${id}',-1)" aria-label="Decrease">−</button>
+              <span>${q}</span>
+              <button onclick="changeQty('${id}',1)" aria-label="Increase">+</button>
+            </div>
+          </div>
+          <div class="right">
+            <div class="p">${fmt(p.price*q)}</div>
+            <button class="rm" onclick="removeItem('${id}')">Remove</button>
+          </div>
+        </div>`;
+      }).join("");
+      const sub = ids.reduce((s,id)=>s+CATALOG[id].price*cart[id],0);
+      document.getElementById("subtotal").textContent = fmt(sub);
+      foot.style.display="block";
+    }
+    const count = document.getElementById("bagCount");
+    count.textContent = bagQty();
+    count.classList.remove("bump"); void count.offsetWidth; count.classList.add("bump");
+  }
+
+  function addToBag(id){
+    cart[id] = (cart[id]||0)+1;
+    renderCart();
+    toast(`${CATALOG[id].name} added`);
+  }
+  function changeQty(id,d){
+    cart[id]=(cart[id]||0)+d;
+    if(cart[id]<=0) delete cart[id];
+    renderCart();
+  }
+  function removeItem(id){ delete cart[id]; renderCart(); }
+
+  /* ---------- add buttons ---------- */
+  document.addEventListener("click",e=>{
+    const add = e.target.closest("[data-add]");
+    if(add){ flash(add); addToBag(add.dataset.add); }
+    const b = e.target.closest("[data-bundle]");
+    if(b){ flash(b); addToBag(b.dataset.bundle); }
+  });
+  function flash(btn){
+    const t = btn.textContent;
+    btn.classList.add("added"); btn.textContent="✓ Added";
+    setTimeout(()=>{btn.classList.remove("added"); btn.textContent=t;},1100);
+  }
+
+  /* ---------- drawer ---------- */
+  function openCart(){ document.getElementById("drawer").classList.add("open");
+    document.getElementById("overlay").classList.add("open"); document.body.classList.add("locked"); }
+  function closeCart(){ document.getElementById("drawer").classList.remove("open");
+    document.getElementById("overlay").classList.remove("open"); document.body.classList.remove("locked"); }
+  function fakeCheckout(){ toast("Checkout is a demo — no payment taken"); }
+  window.openCart=openCart; window.closeCart=closeCart;
+  window.changeQty=changeQty; window.removeItem=removeItem; window.fakeCheckout=fakeCheckout;
+
+  /* ---------- toast ---------- */
+  let toastTimer;
+  function toast(msg){
+    const el=document.getElementById("toast");
+    document.getElementById("toastMsg").textContent=msg;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>el.classList.remove("show"),2200);
+  }
+
+  /* ---------- nav scroll ---------- */
+  const nav=document.getElementById("nav");
+  addEventListener("scroll",()=>nav.classList.toggle("scrolled",scrollY>24),{passive:true});
+
+  /* ---------- mobile menu ---------- */
+  const mt=document.getElementById("menuToggle"), mm=document.getElementById("mobileMenu");
+  mt.addEventListener("click",()=>{mt.classList.toggle("on");mm.classList.toggle("open");});
+  mm.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mt.classList.remove("on");mm.classList.remove("open");}));
+
+  /* ---------- signup ---------- */
+  document.getElementById("signupForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    document.getElementById("signupOk").classList.add("show");
+    e.target.reset();
+  });
+
+  /* ---------- reveal on scroll ---------- */
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+
+  /* keyboard: Esc closes drawer */
+  addEventListener("keydown",e=>{if(e.key==="Escape")closeCart();});
+
+  renderCart();
+</script>
+</body>
+</html>

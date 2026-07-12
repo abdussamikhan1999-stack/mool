@@ -1,0 +1,7 @@
+index.html.orig
+Dockerfile
+.dockerignore
+docker-compose.yml
+.vercel
+*.zip
+*.md
