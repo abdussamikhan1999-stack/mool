@@ -1,0 +1,4 @@
+node_modules/
+files.zip
+deploy-mool-website.cmd
+*.log
