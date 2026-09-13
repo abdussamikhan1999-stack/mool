@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOOL — Find your routine · Scalp-first botanical hair care</title>
+<meta name="description" content="Answer five quick questions and get a scalp-first MOOL routine matched to your hair — no miracle promises, just the ritual, done right.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ---- MOOL design tokens (mirror of css/styles.css :root — keep in sync) ---- */
+:root{
+  --field:#10201A; --panel:#172E23; --panel-2:#1E3B2C;
+  --line:rgba(241,236,223,.14); --line-soft:rgba(241,236,223,.08);
+  --bone:#F1ECDF; --bone-dim:rgba(241,236,223,.62); --bone-faint:rgba(241,236,223,.40);
+  --sage:#9DB79A; --brass:#C6A566; --brass-deep:#a8894f; --ink:#12211A;
+  --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",monospace;
+  --nav-h:66px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--field);color:var(--bone);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+.wrap{max-width:820px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+.serif{font-family:var(--serif)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+svg{display:block}
+.btn{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:500;letter-spacing:.02em;padding:13px 22px;border-radius:3px;transition:background .25s,color .25s,border-color .25s,transform .1s}
+.btn:active{transform:translateY(1px)}
+.btn-brass{background:var(--brass);color:var(--ink)}
+.btn-brass:hover{background:#d4b578}
+.btn-ghost{border:1px solid var(--line);color:var(--bone)}
+.btn-ghost:hover{border-color:var(--brass);color:var(--brass)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+/* ---- nav ---- */
+nav{position:fixed;top:0;left:0;right:0;z-index:60;height:var(--nav-h);display:flex;align-items:center;background:rgba(16,32,26,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1140px;margin:0 auto;padding:0 28px}
+.nav-mark{font-family:var(--serif);font-size:23px;letter-spacing:.06em;display:flex;align-items:baseline;gap:.28em}
+.nav-mark .deva{font-size:.5em;color:var(--brass);font-weight:300;transform:translateY(-.15em)}
+.nav-right a{font-size:13px;color:var(--bone-dim);transition:color .2s}
+.nav-right a:hover{color:var(--brass)}
+
+/* ---- quiz shell ---- */
+.q-main{padding:calc(var(--nav-h) + 54px) 0 90px;min-height:100vh}
+.q-screen{display:none}
+.q-screen.on{display:block;animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* intro */
+.q-eyebrow{margin-bottom:26px}
+.q-title{font-family:var(--serif);font-weight:400;letter-spacing:-.015em;font-size:clamp(40px,7vw,72px);line-height:.98;margin-bottom:8px}
+.q-title .deva{font-size:.28em;color:var(--brass);font-weight:300;transform:translateY(-1.1em);display:inline-block;margin-left:.15em}
+.q-sub{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(20px,3.4vw,30px);color:var(--sage);margin-bottom:22px}
+.q-lede{font-size:16.5px;color:var(--bone-dim);max-width:560px;margin-bottom:34px}
+.q-meta{display:flex;gap:26px;margin-top:30px;flex-wrap:wrap}
+.q-meta .m .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-faint);margin-bottom:6px}
+.q-meta .m .v{font-size:14px;color:var(--bone-dim)}
+.q-meta .m .v b{color:var(--bone);font-weight:600}
+
+/* progress */
+.q-prog{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}
+.q-prog .step{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-faint)}
+.q-prog .step b{color:var(--brass);font-weight:500}
+.q-back{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--bone-faint);transition:color .2s}
+.q-back:hover{color:var(--bone)}
+.q-track{height:2px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:44px}
+.q-fill{height:100%;background:var(--brass);width:0;transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+/* question */
+.q-num{font-family:var(--mono);font-size:12px;color:var(--brass);margin-bottom:14px}
+.q-q{font-family:var(--serif);font-weight:400;font-size:clamp(26px,4vw,40px);letter-spacing:-.01em;line-height:1.15;margin-bottom:10px}
+.q-help{font-size:14.5px;color:var(--bone-faint);margin-bottom:32px;max-width:520px}
+.q-opts{display:grid;gap:12px}
+.q-opt{display:flex;align-items:flex-start;gap:16px;text-align:left;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:20px 22px;transition:background .25s,border-color .25s,transform .1s}
+.q-opt:hover{background:var(--panel-2);border-color:rgba(198,165,106,.45)}
+.q-opt:active{transform:translateY(1px)}
+.q-opt.sel{background:var(--panel-2);border-color:var(--brass)}
+.q-opt .mk{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);margin-top:2px;transition:border-color .25s,background .25s;position:relative}
+.q-opt:hover .mk{border-color:var(--brass)}
+.q-opt.sel .mk{border-color:var(--brass);background:var(--brass)}
+.q-opt.sel .mk::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--ink)}
+.q-opt .txt .l{font-size:16px;color:var(--bone);font-weight:500;margin-bottom:3px}
+.q-opt .txt .s{font-size:13.5px;color:var(--bone-dim)}
+
+/* result */
+.r-kicker{margin-bottom:16px}
+.r-head{font-family:var(--serif);font-weight:400;font-size:clamp(30px,5vw,50px);letter-spacing:-.015em;line-height:1.05;margin-bottom:14px}
+.r-why{font-size:16px;color:var(--bone-dim);max-width:620px;margin-bottom:16px}
+.r-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.r-chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--sage);border:1px solid var(--line-soft);border-radius:2px;padding:6px 11px}
+.r-primary{border:1px solid var(--brass);border-radius:6px;padding:30px 28px;background:linear-gradient(160deg,var(--panel-2),var(--panel));margin-bottom:16px}
+.r-primary .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin-bottom:14px}
+.r-primary h3{font-family:var(--serif);font-weight:400;font-size:30px;margin-bottom:10px}
+.r-primary .desc{font-size:14.5px;color:var(--bone-dim);margin-bottom:22px;max-width:560px}
+.r-primary .foot{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.r-primary .pr{font-family:var(--serif);font-size:32px;color:var(--brass)}
+.r-primary .pr small{display:block;font-family:var(--sans);font-size:11.5px;color:var(--bone-faint);letter-spacing:.02em;margin-top:4px}
+.r-steps-h{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-faint);margin:38px 0 16px}
+.r-steps{display:grid;gap:12px}
+.r-step{display:flex;gap:18px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:22px 24px}
+.r-step .idx{font-family:var(--serif);font-size:30px;font-weight:300;color:var(--brass);line-height:1;flex:0 0 auto;width:34px}
+.r-step .body{flex:1;min-width:0}
+.r-step h4{font-family:var(--serif);font-weight:400;font-size:21px;margin-bottom:2px}
+.r-step .fn{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--sage);text-transform:uppercase;margin-bottom:12px}
+.r-step .claim{font-size:14px;color:var(--bone-dim);margin-bottom:12px}
+.r-step .price{font-family:var(--serif);font-size:20px;color:var(--brass)}
+.r-step .price small{font-family:var(--sans);font-size:11px;color:var(--bone-faint);margin-right:3px}
+.r-cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+.r-note{margin-top:30px;font-size:12.5px;color:var(--bone-faint);max-width:640px;padding-top:22px;border-top:1px solid var(--line-soft)}
+.r-note b{color:var(--sage);font-weight:500}
+
+@media(max-width:560px){
+  .q-opt{padding:17px 18px}
+  .r-primary,.r-step{padding:22px 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .q-screen.on{animation:none}
+  .q-fill,.q-opt,.btn{transition:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-mark">MOOL<span class="deva">मूल</span></a>
+    <div class="nav-right"><a href="index.html#routine">Shop the routine →</a></div>
+  </div>
+</nav>
+
+<main class="q-main">
+  <div class="wrap">
+
+    <!-- ===== INTRO ===== -->
+    <section class="q-screen on" id="intro">
+      <div class="q-eyebrow mono">Find your routine</div>
+      <h1 class="q-title">Start at the root<span class="deva">मूल</span></h1>
+      <p class="q-sub">Five questions. One routine, matched to you.</p>
+      <p class="q-lede">MOOL is a routine, not a shelf of oils. Tell us how your scalp and hair actually behave, and we'll match you to the right scalp-first ritual — from a single hero step to the full scalp-to-lengths routine.</p>
+      <button class="btn btn-brass" id="startBtn">Begin →</button>
+      <div class="q-meta">
+        <div class="m"><div class="k">Takes</div><div class="v">About <b>1 minute</b></div></div>
+        <div class="m"><div class="k">Questions</div><div class="v"><b>5</b>, no email needed</div></div>
+        <div class="m"><div class="k">The promise</div><div class="v"><b>No miracle claims</b> — just the ritual</div></div>
+      </div>
+    </section>
+
+    <!-- ===== QUIZ ===== -->
+    <section class="q-screen" id="quiz">
+      <div class="q-prog">
+        <span class="step">Question <b id="qNow">1</b> of <span id="qTotal">5</span></span>
+        <button class="q-back" id="backBtn" style="visibility:hidden">← Back</button>
+      </div>
+      <div class="q-track"><div class="q-fill" id="qFill"></div></div>
+      <div class="q-num" id="qNum">01</div>
+      <h2 class="q-q" id="qQ"></h2>
+      <p class="q-help" id="qHelp"></p>
+      <div class="q-opts" id="qOpts"></div>
+    </section>
+
+    <!-- ===== RESULT ===== -->
+    <section class="q-screen" id="result"></section>
+
+  </div>
+</main>
+
+<script>
+/* MOOL — Find your routine. Self-contained; no dependencies.
+   Catalogue below mirrors extracted/js/catalog.js + app/data.js (display only). Keep prices in sync. */
+var CATALOG = {
+  tonic:     { id:"tonic",     name:"Rosemary Scalp Tonic",        fn:"Leave-in · every night",   price:799, claim:"A lightweight leave-in that refreshes the scalp and supports stronger, fuller-looking roots — without the weight of an oil." },
+  bhringraj: { id:"bhringraj", name:"Bhringraj Root Strength Oil", fn:"Pre-wash · 2–3× a week",   price:499, claim:"A concentrated pre-wash oil that conditions dry roots and lengths and helps reduce the feel of breakage." },
+  neeli:     { id:"neeli",     name:"Neelibhringadi Intensive Oil",fn:"Deep-condition · 1–2× a week",price:599, claim:"A richer weekly oil for hair that feels dry, rough or overworked — for softness, shine and stronger-looking lengths." },
+  shampoo:   { id:"shampoo",   name:"Rosemary Strength Shampoo",   fn:"Cleanse · as needed",      price:499, claim:"A gentle cleanser that clears scalp buildup and leaves hair fresh — not stripped. Pairs with the tonic and oils." }
+};
+var BUNDLES = {
+  duo:    { id:"duo",    name:"Root Reset Duo",       size:"2-piece set",      price:999,  contains:["tonic","bhringraj"],
+            desc:"Rosemary Scalp Tonic + Bhringraj Root Strength Oil — the nightly scalp reset and the pre-wash strength ritual, together.", note:"Saves ~15% vs. singles" },
+  ritual: { id:"ritual", name:"Complete Root Ritual", size:"4-piece · refill", price:1299, contains:["tonic","bhringraj","neeli","shampoo"],
+            desc:"All four steps — Scalp Tonic, Bhringraj Oil, Neelibhringadi Oil & Rosemary Shampoo — the full scalp-to-lengths routine on refill.", note:"Best value · subscription" }
+};
+var PRIORITY = { tonic:0, bhringraj:1, neeli:2, shampoo:3 };
+var fmt = function(n){ return "₹" + n.toLocaleString("en-IN"); };
+
+/* Questions. weights nudge product scores; last question sets routine `depth`. */
+var QUESTIONS = [
+  { key:"goal", q:"What are you hoping your routine does?", help:"Pick the one that matters most right now.",
+    opts:[
+      { l:"Refresh and reset my scalp", s:"A clean, awake base to start from", tag:"refreshing and resetting your scalp", w:{tonic:2,shampoo:1} },
+      { l:"Stronger, fuller-looking hair", s:"With less breakage through the lengths", tag:"stronger, fuller-looking hair with less breakage", w:{bhringraj:2,tonic:1} },
+      { l:"Soften dry, rough lengths", s:"More softness and shine", tag:"softening dry, rough lengths", w:{neeli:2,bhringraj:1} },
+      { l:"Clear buildup and oiliness", s:"A cleanse that doesn't strip", tag:"clearing buildup", w:{shampoo:2,tonic:1} }
+    ]},
+  { key:"scalp", q:"How does your scalp usually feel?", help:"Between washes, on an ordinary day.",
+    opts:[
+      { l:"Oily — weighed down fast", s:"Roots look flat a day after washing", w:{shampoo:2,tonic:1} },
+      { l:"Dry or tight", s:"Could use some comfort", w:{tonic:1,neeli:1} },
+      { l:"Pretty balanced", s:"No strong complaints", w:{tonic:1} }
+    ]},
+  { key:"lengths", q:"And your lengths?", help:"The mid-shaft to the ends.",
+    opts:[
+      { l:"Dry, rough or overworked", s:"Heat, colour or just tired hair", w:{neeli:2} },
+      { l:"Snaps or breaks easily", s:"Bits break off when I brush", w:{bhringraj:2} },
+      { l:"Fine or limp", s:"Heavy oils tend to flatten it", w:{tonic:1,shampoo:1} },
+      { l:"Feels healthy enough", s:"Just want to keep it that way", w:{bhringraj:1} }
+    ]},
+  { key:"wash", q:"How often do you wash your hair?", help:"This sets the rhythm of the routine.",
+    opts:[
+      { l:"4+ times a week", s:"Frequent, lightweight steps suit me", w:{shampoo:1,tonic:1} },
+      { l:"2–3 times a week", s:"The classic pre-wash rhythm", w:{bhringraj:1} },
+      { l:"Once a week or less", s:"Fewer, richer sessions", w:{neeli:1,bhringraj:1} }
+    ]},
+  { key:"depth", q:"How much of a routine do you want?", help:"Start small or go all in — both are fine.",
+    opts:[
+      { l:"Minimal — one hero step", s:"Give me the single product that fits", depth:"single" },
+      { l:"A simple daily + pre-wash rhythm", s:"Two steps, scalp and strength", depth:"duo" },
+      { l:"The full scalp-to-lengths ritual", s:"All four steps, on refill", depth:"ritual" }
+    ]}
+];
+
+var state = { i:0, answers:{} };
+var $ = function(id){ return document.getElementById(id); };
+
+/* screen switching */
+function show(id){
+  var s = document.querySelectorAll(".q-screen");
+  for (var k=0;k<s.length;k++) s[k].classList.remove("on");
+  $(id).classList.add("on");
+  window.scrollTo({ top:0, behavior:"auto" });
+}
+
+function pad(n){ return (n<10?"0":"") + n; }
+
+function renderQuestion(){
+  var q = QUESTIONS[state.i];
+  $("qNow").textContent = state.i + 1;
+  $("qTotal").textContent = QUESTIONS.length;
+  $("qNum").textContent = pad(state.i + 1);
+  $("qQ").textContent = q.q;
+  $("qHelp").textContent = q.help;
+  $("qFill").style.width = ((state.i) / QUESTIONS.length * 100) + "%";
+  $("backBtn").style.visibility = state.i === 0 ? "hidden" : "visible";
+
+  var box = $("qOpts");
+  box.innerHTML = "";
+  var chosen = state.answers[q.key];
+  q.opts.forEach(function(opt, idx){
+    var b = document.createElement("button");
+    b.className = "q-opt" + (chosen === opt ? " sel" : "");
+    b.innerHTML = '<span class="mk"></span><span class="txt"><span class="l"></span><span class="s"></span></span>';
+    b.querySelector(".l").textContent = opt.l;
+    b.querySelector(".s").textContent = opt.s;
+    b.addEventListener("click", function(){ choose(q, opt); });
+    box.appendChild(b);
+  });
+}
+
+function choose(q, opt){
+  state.answers[q.key] = opt;
+  // reflect selection, then advance
+  var btns = $("qOpts").querySelectorAll(".q-opt");
+  var opts = q.opts;
+  for (var k=0;k<btns.length;k++) btns[k].classList.toggle("sel", opts[k] === opt);
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var go = function(){
+    if (state.i < QUESTIONS.length - 1){ state.i++; renderQuestion(); }
+    else { finish(); }
+  };
+  if (reduce) go(); else setTimeout(go, 260);
+}
+
+function back(){
+  if (state.i > 0){ state.i--; renderQuestion(); }
+}
+
+/* scoring + recommendation */
+function computeRec(){
+  var score = { tonic:0, bhringraj:0, neeli:0, shampoo:0 };
+  var depth = "duo";
+  QUESTIONS.forEach(function(q){
+    var a = state.answers[q.key];
+    if (!a) return;
+    if (a.w) for (var id in a.w) score[id] += a.w[id];
+    if (a.depth) depth = a.depth;
+  });
+  var rank = Object.keys(score).sort(function(a,b){
+    return (score[b] - score[a]) || (PRIORITY[a] - PRIORITY[b]);
+  });
+
+  var rec = { depth:depth, score:score, rank:rank, primary:null, steps:[] };
+
+  if (depth === "ritual"){
+    rec.primary = { kind:"bundle", item:BUNDLES.ritual };
+    rec.steps = BUNDLES.ritual.contains.slice();
+  } else if (depth === "duo"){
+    rec.primary = { kind:"bundle", item:BUNDLES.duo };
+    rec.steps = BUNDLES.duo.contains.slice();
+    // surface the strongest need outside the duo as an optional add-on
+    var addon = rank.filter(function(id){ return id !== "tonic" && id !== "bhringraj"; })[0];
+    if (addon && score[addon] >= 2) rec.steps.push(addon);
+  } else { // single
+    rec.primary = { kind:"product", item:CATALOG[rank[0]] };
+    rec.steps = [rank[0], rank[1]]; // hero + best pairing
+  }
+  return rec;
+}
+
+function finish(){
+  $("qFill").style.width = "100%";
+  var rec = computeRec();
+  try { localStorage.setItem("moolQuiz", JSON.stringify({
+    answers:Object.keys(state.answers).reduce(function(o,k){ o[k]=state.answers[k].l; return o; }, {}),
+    depth:rec.depth, primary:rec.primary.item.id, steps:rec.steps
+  })); } catch(e){}
+  renderResult(rec);
+  show("result");
+}
+
+function renderResult(rec){
+  var goal = state.answers.goal;
+  var depthPhrase = rec.depth === "single" ? "as a single hero step"
+                  : rec.depth === "ritual" ? "as the full scalp-to-lengths ritual"
+                  : "as a simple daily + pre-wash rhythm";
+  var whyText = "Built around " + (goal ? goal.tag : "your scalp") + ", " + depthPhrase +
+                ". Here's the routine we'd start you on.";
+
+  var chips = QUESTIONS.map(function(q){
+    var a = state.answers[q.key];
+    return a ? '<span class="r-chip">' + a.l + '</span>' : '';
+  }).join("");
+
+  var p = rec.primary, primaryHTML;
+  if (p.kind === "bundle"){
+    var b = p.item;
+    primaryHTML =
+      '<div class="r-primary">' +
+        '<div class="k">Your match · ' + b.size + '</div>' +
+        '<h3 class="serif">' + b.name + '</h3>' +
+        '<p class="desc">' + b.desc + '</p>' +
+        '<div class="foot">' +
+          '<div class="pr">' + fmt(b.price) + '<small>' + b.note + '</small></div>' +
+          '<a class="btn btn-brass" href="index.html#bundles">Shop this bundle →</a>' +
+        '</div>' +
+      '</div>';
+  } else {
+    var c = p.item;
+    primaryHTML =
+      '<div class="r-primary">' +
+        '<div class="k">Your hero step</div>' +
+        '<h3 class="serif">' + c.name + '</h3>' +
+        '<p class="desc">' + c.claim + '</p>' +
+        '<div class="foot">' +
+          '<div class="pr">' + fmt(c.price) + '<small>' + c.fn + '</small></div>' +
+          '<a class="btn btn-brass" href="index.html#routine">Shop this product →</a>' +
+        '</div>' +
+      '</div>';
+  }
+
+  var stepsHTML = rec.steps.map(function(id, n){
+    var c = CATALOG[id];
+    return '<div class="r-step">' +
+      '<div class="idx serif">' + pad(n + 1) + '</div>' +
+      '<div class="body">' +
+        '<h4>' + c.name + '</h4>' +
+        '<div class="fn">' + c.fn + '</div>' +
+        '<p class="claim">' + c.claim + '</p>' +
+        '<div class="price"><small>' + fmt(c.price) + '</small></div>' +
+      '</div></div>';
+  }).join("");
+
+  $("result").innerHTML =
+    '<div class="r-kicker mono">Your MOOL routine</div>' +
+    '<h2 class="r-head serif">Start at the root.</h2>' +
+    '<p class="r-why">' + whyText + '</p>' +
+    '<div class="r-chips">' + chips + '</div>' +
+    primaryHTML +
+    '<div class="r-steps-h">' + (rec.depth === "single" ? "Pair it with" : "Your steps") + '</div>' +
+    '<div class="r-steps">' + stepsHTML + '</div>' +
+    '<div class="r-cta">' +
+      '<a class="btn btn-brass" href="index.html#routine">See the full routine →</a>' +
+      '<button class="btn btn-ghost" id="retakeBtn">Retake the quiz</button>' +
+    '</div>' +
+    '<p class="r-note"><b>A note on claims.</b> These are cosmetics that support a scalp-first hair-care routine — not a treatment for hair loss, greying or any scalp condition. Your match is based only on the answers you gave. Prices are launch targets.</p>';
+
+  $("retakeBtn").addEventListener("click", restart);
+}
+
+function restart(){
+  state = { i:0, answers:{} };
+  renderQuestion();
+  show("quiz");
+}
+
+/* wire up */
+$("startBtn").addEventListener("click", function(){ renderQuestion(); show("quiz"); });
+$("backBtn").addEventListener("click", back);
+</script>
+</body>
+</html>
