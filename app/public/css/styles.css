@@ -228,6 +228,8 @@ footer{padding:62px 0 60px;border-top:1px solid var(--line)}
 .toast .dot{width:7px;height:7px;border-radius:50%;background:var(--sage)}
 
 /* ---------------- RESPONSIVE ---------------- */
+/* The mobile menu is only styled (and hidden) inside the <=860px query below; on desktop it must not render at all. */
+@media(min-width:861px){.mobile-menu{display:none}}
 @media(max-width:860px){
   .nav-links{display:none}
   .menu-toggle{display:flex;flex-direction:column;gap:5px;padding:8px;width:38px}
